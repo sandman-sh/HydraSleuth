@@ -44,19 +44,64 @@ export async function investigateCase(input: InvestigationCaseInput): Promise<In
     console.warn("Rollup session failed, using simulated session:", err.message);
     privateRollupSession = {
       sessionUri: "simulated-session-uri",
-      privateHandoffs: [],
-      privateMicropayments: [],
-      coordinationLog: ["Simulated Rollup Session initialized."],
-      createEncryptedHandoff: (from: string, to: string, data: any) => {
-        privateRollupSession.privateHandoffs.push({ from, to, timestamp: Date.now() });
-        privateRollupSession.coordinationLog.push(`[${from}] passed encrypted handoff to [${to}].`);
+      privateHandoffs: [] as any[],
+      privateMicropayments: [] as any[],
+      coordinationLog: [{
+        type: "delegate" as const,
+        detail: "Simulated Private Ephemeral Rollup session initialized (serverless mode).",
+        createdAt: new Date().toISOString(),
+      }],
+      createEncryptedHandoff: (from: string, to: string, _data: any) => {
+        const now = new Date().toISOString();
+        privateRollupSession.privateHandoffs.push({
+          from,
+          to,
+          ciphertext: `[encrypted-${from}-to-${to}]`,
+          iv: "sim-iv-" + Date.now().toString(16),
+          authTag: "sim-tag-" + Date.now().toString(16),
+          createdAt: now,
+        });
+        privateRollupSession.coordinationLog.push({
+          type: "handoff" as const,
+          detail: `${from} delivered an encrypted handoff to ${to} inside the simulated rollup.`,
+          createdAt: now,
+        });
       },
-      rewardAgent: async (agent: string, lamports: number, note: string) => {
-        privateRollupSession.privateMicropayments.push({ agent, lamports, note });
-        privateRollupSession.coordinationLog.push(`Rewarded ${agent} with ${lamports} lamports.`);
+      rewardAgent: async (agent: string, lamports: number, memo: string) => {
+        const now = new Date().toISOString();
+        privateRollupSession.privateMicropayments.push({
+          from: "sharedTreasury",
+          to: agent,
+          amount: lamports,
+          visibility: "private",
+          mint: "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
+          status: "submitted",
+          memo,
+          transactionBase64: Buffer.from(`simulated-tx-${agent}-${lamports}`).toString("base64"),
+          route: "ephemeral",
+          validator: "Simulated Validator",
+          transactionSignature: `sim-sig-${agent}-${Date.now().toString(16)}`,
+        });
+        privateRollupSession.coordinationLog.push({
+          type: "payment" as const,
+          detail: `Submitted private micropayment for ${agent}: ${lamports} base units on the ephemeral route.`,
+          createdAt: now,
+        });
       },
       finalizeSettlement: (summary: string, risk: number) => {
-        return { attestationHash: "simulated-attestation-hash", settlementPlan: {} };
+        privateRollupSession.coordinationLog.push({
+          type: "settlement" as const,
+          detail: `Committed the sanitized report to Solana L1 with simulated attestation.`,
+          createdAt: new Date().toISOString(),
+        });
+        return {
+          attestationHash: require("crypto").createHash("sha256").update(`${summary}:${risk}:${Date.now()}`).digest("hex"),
+          settlementPlan: {
+            baseLayerInstruction: "settle_report(case_id, sanitized_summary, attestation_hash, risk_score)",
+            reportPdaSeed: caseRecord.caseId,
+            privateSessionUri: "simulated-session-uri",
+          },
+        };
       }
     };
   }

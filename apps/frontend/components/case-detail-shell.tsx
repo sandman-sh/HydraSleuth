@@ -212,10 +212,10 @@ export function CaseDetailShell({ report }: { report: InvestigationReport }) {
               <section className="rounded-[2rem] border border-white/10 bg-[#0A0A0A]/80 p-8 shadow-2xl backdrop-blur-xl">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-5">Private Rollup Log</p>
                 <div className="space-y-4">
-                  {report.coordinationLog.map((event) => (
-                    <div key={`${event.type}-${event.createdAt}`} className="rounded-2xl border border-white/5 bg-white/[0.02] p-4">
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-neon">{event.type}</p>
-                      <p className="mt-2 text-sm leading-relaxed text-white/70">{event.detail}</p>
+                  {report.coordinationLog.map((event, idx) => (
+                    <div key={`${event?.type ?? "event"}-${idx}`} className="rounded-2xl border border-white/5 bg-white/[0.02] p-4">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-neon">{event?.type ?? "log"}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-white/70">{event?.detail ?? String(event)}</p>
                     </div>
                   ))}
                 </div>
@@ -225,14 +225,14 @@ export function CaseDetailShell({ report }: { report: InvestigationReport }) {
                 <div className="absolute bottom-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-[50px]" />
                 <p className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-5 relative z-10">Private Micropayments</p>
                 <div className="space-y-4 relative z-10">
-                  {report.privateMicropayments.map((payment) => (
-                    <div key={`${payment.to}-${payment.memo}`} className="rounded-2xl border border-white/5 bg-white/[0.02] p-5">
+                  {report.privateMicropayments.map((payment, idx) => (
+                    <div key={`${payment.to ?? "agent"}-${idx}`} className="rounded-2xl border border-white/5 bg-white/[0.02] p-5">
                       <div className="flex items-center justify-between gap-3 mb-3">
-                        <p className="text-xs font-mono font-semibold text-white truncate">{payment.to}</p>
-                        <StatusPill label={payment.status} tone="good" />
+                        <p className="text-xs font-mono font-semibold text-white truncate">{payment.to ?? "Unknown Agent"}</p>
+                        <StatusPill label={payment.status ?? "submitted"} tone="good" />
                       </div>
                       <p className="text-sm leading-relaxed text-white/70">
-                        <strong className="text-neon">{payment.amount.toLocaleString()} units</strong> through the {payment.route} route as a {payment.visibility} transfer.
+                        <strong className="text-neon">{(payment.amount ?? 0).toLocaleString()} units</strong> through the {payment.route ?? "ephemeral"} route as a {payment.visibility ?? "private"} transfer.
                       </p>
                       <div className="mt-3 rounded-lg bg-[#111] border border-white/5 p-3">
                         <p className="text-[10px] uppercase text-white/40 font-bold mb-1">Signature</p>
@@ -240,7 +240,7 @@ export function CaseDetailShell({ report }: { report: InvestigationReport }) {
                           {payment.transactionSignature ?? "pending"}
                         </p>
                         <p className="mt-2 break-all font-mono text-[10px] leading-relaxed text-white/30">
-                          {payment.transactionBase64.slice(0, 80)}...
+                          {(payment.transactionBase64 ?? "").slice(0, 80)}...
                         </p>
                       </div>
                     </div>
