@@ -35,6 +35,19 @@ async function resolveKeypairPath() {
 }
 
 export async function loadAuthorityKeypair() {
+  if (process.env.HYDRASLEUTH_AUTHORITY_KEYPAIR_JSON) {
+    let secretKey: number[];
+    try {
+      secretKey = JSON.parse(process.env.HYDRASLEUTH_AUTHORITY_KEYPAIR_JSON) as number[];
+      return {
+        keypairPath: "ENV: HYDRASLEUTH_AUTHORITY_KEYPAIR_JSON",
+        keypair: Keypair.fromSecretKey(Uint8Array.from(secretKey)),
+      };
+    } catch (e) {
+      console.warn("Failed to parse HYDRASLEUTH_AUTHORITY_KEYPAIR_JSON environment variable.");
+    }
+  }
+
   const keypairPath = await resolveKeypairPath();
   const secretKey = JSON.parse(await readFile(keypairPath, "utf8")) as number[];
 
