@@ -1,0 +1,641 @@
+{
+  "address": "BQ4eThhvKuqZH7taHwnBQB7VQPyei1d8TAbyByZ4ZJhp",
+  "metadata": {
+    "name": "hydra_sleuth",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "HydraSleuth Anchor entrypoint for private multi-agent investigations"
+  },
+  "instructions": [
+    {
+      "name": "commit_case_state",
+      "discriminator": [
+        181,
+        131,
+        42,
+        120,
+        245,
+        190,
+        104,
+        108
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "case_record",
+          "writable": true
+        },
+        {
+          "name": "magic_program",
+          "address": "Magic11111111111111111111111111111111111111"
+        },
+        {
+          "name": "magic_context",
+          "writable": true,
+          "address": "MagicContext1111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "delegate_case_state",
+      "discriminator": [
+        72,
+        222,
+        137,
+        28,
+        42,
+        215,
+        165,
+        229
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "validator",
+          "optional": true
+        },
+        {
+          "name": "buffer_case_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  117,
+                  102,
+                  102,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "case_record"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                154,
+                125,
+                89,
+                171,
+                58,
+                31,
+                68,
+                85,
+                158,
+                182,
+                142,
+                18,
+                243,
+                132,
+                198,
+                45,
+                190,
+                187,
+                222,
+                248,
+                56,
+                63,
+                109,
+                87,
+                8,
+                27,
+                98,
+                47,
+                225,
+                113,
+                159,
+                211
+              ]
+            }
+          }
+        },
+        {
+          "name": "delegation_record_case_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "case_record"
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "delegation_program"
+            }
+          }
+        },
+        {
+          "name": "delegation_metadata_case_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  109,
+                  101,
+                  116,
+                  97,
+                  100,
+                  97,
+                  116,
+                  97
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "case_record"
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "delegation_program"
+            }
+          }
+        },
+        {
+          "name": "case_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  97,
+                  115,
+                  101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "case_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "owner_program",
+          "address": "BQ4eThhvKuqZH7taHwnBQB7VQPyei1d8TAbyByZ4ZJhp"
+        },
+        {
+          "name": "delegation_program",
+          "address": "DELeGGvXpWV2fqJUhqcF5ZSYMS4JTLjteaAMARRSaeSh"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "case_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "initialize_treasury",
+      "discriminator": [
+        124,
+        186,
+        211,
+        195,
+        85,
+        165,
+        129,
+        166
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "treasury_mint",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "mark_case_investigating",
+      "discriminator": [
+        229,
+        96,
+        193,
+        238,
+        33,
+        42,
+        72,
+        164
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "case_record",
+          "writable": true
+        },
+        {
+          "name": "treasury",
+          "relations": [
+            "case_record"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "process_undelegation",
+      "discriminator": [
+        196,
+        28,
+        41,
+        206,
+        48,
+        37,
+        51,
+        167
+      ],
+      "accounts": [
+        {
+          "name": "base_account",
+          "writable": true
+        },
+        {
+          "name": "buffer"
+        },
+        {
+          "name": "payer",
+          "writable": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "account_seeds",
+          "type": {
+            "vec": "bytes"
+          }
+        }
+      ]
+    },
+    {
+      "name": "settle_report",
+      "discriminator": [
+        175,
+        186,
+        68,
+        94,
+        87,
+        45,
+        127,
+        107
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "treasury"
+          ]
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "relations": [
+            "case_record"
+          ]
+        },
+        {
+          "name": "case_record",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "sanitized_summary",
+          "type": "string"
+        },
+        {
+          "name": "attestation_hash",
+          "type": "string"
+        },
+        {
+          "name": "risk_score",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "submit_case",
+      "discriminator": [
+        208,
+        38,
+        149,
+        114,
+        143,
+        95,
+        135,
+        225
+      ],
+      "accounts": [
+        {
+          "name": "requester",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "treasury",
+          "writable": true
+        },
+        {
+          "name": "case_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  97,
+                  115,
+                  101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "case_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "case_id",
+          "type": "string"
+        },
+        {
+          "name": "investigation_type",
+          "type": "string"
+        },
+        {
+          "name": "subject",
+          "type": "string"
+        },
+        {
+          "name": "private_session_uri",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "undelegate_case_state",
+      "discriminator": [
+        211,
+        50,
+        155,
+        17,
+        207,
+        162,
+        195,
+        81
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "case_record",
+          "writable": true
+        },
+        {
+          "name": "magic_program",
+          "address": "Magic11111111111111111111111111111111111111"
+        },
+        {
+          "name": "magic_context",
+          "writable": true,
+          "address": "MagicContext1111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "CaseRecord",
+      "discriminator": [
+        98,
+        172,
+        46,
+        158,
+        88,
+        134,
+        10,
+        138
+      ]
+    },
+    {
+      "name": "TreasuryConfig",
+      "discriminator": [
+        124,
+        54,
+        212,
+        227,
+        213,
+        189,
+        168,
+        41
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "StringTooLong",
+      "msg": "One of the provided strings exceeds the allowed size."
+    },
+    {
+      "code": 6001,
+      "name": "MathOverflow",
+      "msg": "A numeric calculation overflowed."
+    }
+  ],
+  "types": [
+    {
+      "name": "CaseRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "requester",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury",
+            "type": "pubkey"
+          },
+          {
+            "name": "risk_score",
+            "type": "u8"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "updated_at",
+            "type": "i64"
+          },
+          {
+            "name": "investigation_type",
+            "type": "string"
+          },
+          {
+            "name": "case_id",
+            "type": "string"
+          },
+          {
+            "name": "subject",
+            "type": "string"
+          },
+          {
+            "name": "private_session_uri",
+            "type": "string"
+          },
+          {
+            "name": "sanitized_summary",
+            "type": "string"
+          },
+          {
+            "name": "attestation_hash",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TreasuryConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury_bump",
+            "type": "u8"
+          },
+          {
+            "name": "total_cases",
+            "type": "u64"
+          },
+          {
+            "name": "settled_cases",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ]
+}

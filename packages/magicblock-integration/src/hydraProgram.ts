@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+
 
 import { AnchorProvider, Program, type Idl } from "@coral-xyz/anchor";
 import { GetCommitmentSignature } from "@magicblock-labs/ephemeral-rollups-sdk";
@@ -20,9 +20,10 @@ type HydraProgramStatus = {
   treasury: string;
 };
 
+import HydraIdl from "./idl.json";
+
 async function loadHydraIdl() {
-  const idlPath = resolveWorkspacePath("target", "idl", "hydra_sleuth.json");
-  return JSON.parse(await readFile(idlPath, "utf8")) as Idl & { address?: string };
+  return HydraIdl as Idl & { address?: string };
 }
 
 async function createProgramProvider() {
