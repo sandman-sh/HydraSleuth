@@ -1,0 +1,21 @@
+{
+  "name": "@hydrasleuth/magicblock-integration",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --project tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.32.1",
+    "@hydrasleuth/shared": "0.1.0",
+    "@magicblock-labs/ephemeral-rollups-sdk": "^0.6.5",
+    "@solana/spl-token": "^0.3.11",
+    "@solana/web3.js": "^1.98.2",
+    "tweetnacl": "^1.0.3"
+  }
+}

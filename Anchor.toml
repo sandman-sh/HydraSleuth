@@ -1,0 +1,19 @@
+[features]
+resolution = true
+skip-lint = false
+
+[programs.localnet]
+hydra_sleuth = "BQ4eThhvKuqZH7taHwnBQB7VQPyei1d8TAbyByZ4ZJhp"
+
+[programs.devnet]
+hydra_sleuth = "BQ4eThhvKuqZH7taHwnBQB7VQPyei1d8TAbyByZ4ZJhp"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "Devnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "cargo test --workspace"

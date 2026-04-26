@@ -1,0 +1,14 @@
+node_modules
+.next
+.next-build
+.next-typecheck
+dist
+target
+.turbo
+.env.local
+.env
+coverage
+*.tsbuildinfo
+.wallets
+.hydrasleuth-data
+
