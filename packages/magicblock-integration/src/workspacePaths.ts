@@ -43,9 +43,7 @@ export function findWorkspaceRoot() {
     }
   }
 
-  throw new Error(
-    "HydraSleuth could not locate the workspace root. Run the app from the project tree or restore the monorepo layout.",
-  );
+  return process.cwd();
 }
 
 export function resolveWorkspacePath(...segments: string[]) {

@@ -42,18 +42,22 @@ function hydrateStore() {
 }
 
 function persistStore() {
-  mkdirSync(dirname(storageFile), { recursive: true });
-  writeFileSync(
-    storageFile,
-    JSON.stringify(
-      {
-        cases: [...cases.values()],
-        reports: [...reports.values()],
-      } satisfies PersistedStore,
-      null,
-      2,
-    ),
-  );
+  try {
+    mkdirSync(dirname(storageFile), { recursive: true });
+    writeFileSync(
+      storageFile,
+      JSON.stringify(
+        {
+          cases: [...cases.values()],
+          reports: [...reports.values()],
+        } satisfies PersistedStore,
+        null,
+        2,
+      ),
+    );
+  } catch {
+    // Ignore write errors on read-only filesystems like Vercel
+  }
 }
 
 export function saveCase(caseRecord: InvestigationCaseRecord) {
